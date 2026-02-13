@@ -10,7 +10,6 @@ window.addEventListener('load', function() {
     const prevBtn = document.getElementById('prevSlide');
     const nextBtn = document.getElementById('nextSlide');
     const finalMessage = document.getElementById('finalMessage');
-    const gameStartBtn = document.getElementById('gameStartBtn');
     const gameContainer = document.getElementById('gameContainer');
     const gameArea = document.getElementById('gameArea');
     const catcher = document.getElementById('catcher');
@@ -32,6 +31,7 @@ window.addEventListener('load', function() {
     let combo = 0;
     let lastCatchTime = 0;
     let gameWon = false;
+    let gameStarted = false;
     
     // Для мобильных свайпов
     let touchStartX = 0;
@@ -72,15 +72,11 @@ window.addEventListener('load', function() {
             dot.classList.toggle('active', i === currentSlide);
         });
         
-        // УПРАВЛЕНИЕ КНОПКОЙ - ТОЛЬКО ТУТ!
-        if (gameStartBtn) {
-            if (currentSlide === totalSlides - 1 && !gameActive && !gameWon) {
-                // Последний слайд, игра не активна, не победа - ПОКАЗЫВАЕМ
-                gameStartBtn.classList.remove('hidden');
-            } else {
-                // Во всех остальных случаях - ПРЯЧЕМ
-                gameStartBtn.classList.add('hidden');
-            }
+        // Если дошли до последнего слайда и игра еще не начиналась - запускаем игру
+        if (currentSlide === totalSlides - 1 && !gameStarted && !gameWon) {
+            setTimeout(() => {
+                startGame();
+            }, 1000); // Небольшая задержка, чтобы увидеть последнее фото
         }
         
         // Финальное сообщение только на последнем слайде
@@ -168,20 +164,6 @@ window.addEventListener('load', function() {
     }
     
     // ========== ИГРА ==========
-    if (gameStartBtn) {
-        gameStartBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            startGame();
-        });
-        
-        gameStartBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            startGame();
-        });
-    }
-    
     if (exitGame) {
         exitGame.addEventListener('click', () => {
             endGame();
@@ -203,6 +185,10 @@ window.addEventListener('load', function() {
     }
     
     function startGame() {
+        if (gameStarted || gameWon) return;
+        
+        console.log('Запуск игры');
+        gameStarted = true;
         gameActive = true;
         score = 0;
         lives_count = 3;
@@ -213,11 +199,6 @@ window.addEventListener('load', function() {
         if (gameArea) gameArea.innerHTML = '';
         if (gameContainer) {
             gameContainer.classList.remove('hidden');
-        }
-        
-        // ПРЯЧЕМ КНОПКУ ПРИ ЗАПУСКЕ
-        if (gameStartBtn) {
-            gameStartBtn.classList.add('hidden');
         }
         
         if (gameInterval) clearInterval(gameInterval);
@@ -243,9 +224,9 @@ window.addEventListener('load', function() {
             gameArea.removeEventListener('mousemove', moveCatcher);
         }
         
-        // ВОЗВРАЩАЕМ КНОПКУ ТОЛЬКО ЕСЛИ МЫ НА ПОСЛЕДНЕМ СЛАЙДЕ И НЕ ПОБЕДА
-        if (!gameWon && gameStartBtn && currentSlide === totalSlides - 1) {
-            gameStartBtn.classList.remove('hidden');
+        // Если не победа, можно запустить игру заново при следующем просмотре
+        if (!gameWon) {
+            gameStarted = false;
         }
     }
     
@@ -423,21 +404,17 @@ window.addEventListener('load', function() {
     
     function gameOver() {
         endGame();
-        alert('Ой! Сердечки разбились... Попробуй еще раз! ❤️');
+        alert('Ой! Сердечки разбились... Вернись на последнее фото и попробуй еще раз! ❤️');
     }
     
     function win() {
         gameWon = true;
+        gameStarted = true;
         gameActive = false;
         
         if (gameContainer) gameContainer.classList.add('hidden');
         if (gameInterval) clearInterval(gameInterval);
         if (bonusMessage) bonusMessage.classList.add('visible');
-        
-        // Кнопка навсегда скрыта после победы
-        if (gameStartBtn) {
-            gameStartBtn.classList.add('hidden');
-        }
         
         for (let i = 0; i < 30; i++) {
             setTimeout(() => createFirework(), i * 70);
