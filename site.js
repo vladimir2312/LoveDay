@@ -23,6 +23,9 @@ window.addEventListener('load', function() {
     let currentSlide = 0;
     const totalSlides = slides.length;
     
+    console.log('Слайдов найдено:', totalSlides);
+    console.log('Стрелки:', prevBtn, nextBtn);
+    
     // Переменные игры
     let gameActive = false;
     let score = 0;
@@ -35,7 +38,6 @@ window.addEventListener('load', function() {
     
     // Для мобильных свайпов
     let touchStartX = 0;
-    let touchStartY = 0;
     
     // ========== ТАЙМЕР ==========
     function updateTimer() {
@@ -62,24 +64,34 @@ window.addEventListener('load', function() {
     
     // ========== СЛАЙДЕР ==========
     function goToSlide(index) {
+        if (index < 0) index = 0;
+        if (index >= totalSlides) index = totalSlides - 1;
+        
         currentSlide = index;
+        
         if (sliderTrack) {
             sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            console.log('Переход на слайд:', currentSlide);
         }
         
         // Обновляем точки
         dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentSlide);
+            if (i === currentSlide) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
         });
         
-        // Если дошли до последнего слайда и игра еще не начиналась - запускаем игру
+        // Если дошли до последнего слайда и игра еще не начиналась
         if (currentSlide === totalSlides - 1 && !gameStarted && !gameWon) {
+            console.log('Последний слайд, запускаем игру');
             setTimeout(() => {
                 startGame();
-            }, 1000); // Небольшая задержка, чтобы увидеть последнее фото
+            }, 1000);
         }
         
-        // Финальное сообщение только на последнем слайде
+        // Финальное сообщение
         if (finalMessage) {
             if (currentSlide === totalSlides - 1) {
                 finalMessage.classList.add('visible');
@@ -89,58 +101,46 @@ window.addEventListener('load', function() {
         }
     }
     
-    // Точки
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => goToSlide(index));
-        dot.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            goToSlide(index);
-        });
-    });
-    
-    // Стрелки
+    // Стрелки - ПРОВЕРЯЕМ ЧТО ОНИ РАБОТАЮТ
     if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-            const prev = (currentSlide - 1 + totalSlides) % totalSlides;
-            goToSlide(prev);
-        });
-        prevBtn.addEventListener('touchstart', (e) => {
+        prevBtn.onclick = function(e) {
             e.preventDefault();
-            const prev = (currentSlide - 1 + totalSlides) % totalSlides;
-            goToSlide(prev);
-        });
+            console.log('Клик на prev');
+            goToSlide(currentSlide - 1);
+        };
     }
     
     if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-            const next = (currentSlide + 1) % totalSlides;
-            goToSlide(next);
-        });
-        nextBtn.addEventListener('touchstart', (e) => {
+        nextBtn.onclick = function(e) {
             e.preventDefault();
-            const next = (currentSlide + 1) % totalSlides;
-            goToSlide(next);
-        });
+            console.log('Клик на next');
+            goToSlide(currentSlide + 1);
+        };
     }
     
-    // Свайпы
+    // Точки
+    dots.forEach((dot, index) => {
+        dot.onclick = function(e) {
+            e.preventDefault();
+            console.log('Клик на точку', index);
+            goToSlide(index);
+        };
+    });
+    
+    // Свайпы для мобильных
     if (sliderTrack) {
-        sliderTrack.addEventListener('touchstart', (e) => {
+        sliderTrack.addEventListener('touchstart', function(e) {
             touchStartX = e.touches[0].clientX;
-            touchStartY = e.touches[0].clientY;
         });
         
-        sliderTrack.addEventListener('touchend', (e) => {
+        sliderTrack.addEventListener('touchend', function(e) {
             const touchEndX = e.changedTouches[0].clientX;
-            const touchEndY = e.changedTouches[0].clientY;
-            
             const diffX = touchStartX - touchEndX;
-            const diffY = touchStartY - touchEndY;
             
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
-                if (diffX > 0 && currentSlide < totalSlides - 1) {
+            if (Math.abs(diffX) > 50) {
+                if (diffX > 0) {
                     goToSlide(currentSlide + 1);
-                } else if (diffX < 0 && currentSlide > 0) {
+                } else {
                     goToSlide(currentSlide - 1);
                 }
             }
@@ -149,39 +149,25 @@ window.addEventListener('load', function() {
     
     // ========== СТАРТОВЫЙ ЭКРАН ==========
     if (startScreen) {
-        startScreen.addEventListener('click', () => {
+        startScreen.onclick = function() {
+            console.log('Клик по стартовому экрану');
             startScreen.classList.add('hidden');
             mainContent.classList.add('visible');
-            setTimeout(() => goToSlide(0), 100);
-        });
-        
-        startScreen.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            startScreen.classList.add('hidden');
-            mainContent.classList.add('visible');
-            setTimeout(() => goToSlide(0), 100);
-        });
+            goToSlide(0);
+        };
     }
     
     // ========== ИГРА ==========
     if (exitGame) {
-        exitGame.addEventListener('click', () => {
+        exitGame.onclick = function() {
             endGame();
-        });
-        exitGame.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            endGame();
-        });
+        };
     }
     
     if (closeBonus) {
-        closeBonus.addEventListener('click', () => {
+        closeBonus.onclick = function() {
             bonusMessage.classList.remove('visible');
-        });
-        closeBonus.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            bonusMessage.classList.remove('visible');
-        });
+        };
     }
     
     function startGame() {
@@ -224,7 +210,6 @@ window.addEventListener('load', function() {
             gameArea.removeEventListener('mousemove', moveCatcher);
         }
         
-        // Если не победа, можно запустить игру заново при следующем просмотре
         if (!gameWon) {
             gameStarted = false;
         }
@@ -456,8 +441,10 @@ window.addEventListener('load', function() {
     `;
     document.head.appendChild(style);
     
-    // Инициализация
+    // Стартуем с первого слайда
     setTimeout(() => {
         goToSlide(0);
     }, 500);
+    
+    console.log('Сайт загружен!');
 });
