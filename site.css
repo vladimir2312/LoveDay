@@ -750,3 +750,32 @@ body {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.2); }
 }
+/* ЖЕСТКИЙ ФИКС КНОПКИ - В КОНЕЦ ФАЙЛА */
+#gameStartBtn {
+    position: relative !important;
+    z-index: 999999 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    display: block !important;
+}
+
+.game-start-btn {
+    position: relative !important;
+    z-index: 999999 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* Убеждаемся что ничего не перекрывает */
+.slider-container,
+.slider-frame,
+.slider,
+.message {
+    pointer-events: none !important;
+}
+
+/* А кнопка должна получать события */
+#gameStartBtn,
+.game-start-btn {
+    pointer-events: auto !important;
+}
