@@ -994,3 +994,27 @@ body {
         max-width: 600px;
     }
 }
+/* Фикс для кнопки игры на телефоне */
+#gameStartBtn {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    z-index: 9999 !important;
+    position: relative !important;
+    margin: 20px auto !important;
+}
+
+.game-start-btn {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Убираем автопрокрутку */
+.slider-track {
+    transition: transform 0.3s ease;
+}
