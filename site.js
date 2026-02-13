@@ -1,5 +1,6 @@
 ﻿window.addEventListener('load', function () {
     // ========== ОСНОВНЫЕ ЭЛЕМЕНТЫ ==========
+     let gameWon = false; // флаг, что игра уже пройдена
     const startScreen = document.getElementById('startScreen');
     const mainContent = document.getElementById('mainContent');
     const sliderTrack = document.getElementById('sliderTrack');
@@ -62,25 +63,27 @@
     updateTimer();
 
     // ========== СЛАЙДЕР ==========
-    function goToSlide(index) {
-        currentSlide = index;
-        sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
-
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === currentSlide);
-        });
-
-        if (currentSlide === totalSlides - 1) {
-            finalMessage.classList.add('visible');
-            setTimeout(() => {
-                gameStartBtn.classList.remove('hidden');
-            }, 1000);
-        } else {
-            finalMessage.classList.remove('visible');
-            gameStartBtn.classList.add('hidden');
+function goToSlide(index) {
+    currentSlide = index;
+    sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+    
+    dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === currentSlide);
+    });
+    
+    // Показываем финальное сообщение на последнем слайде
+    if (currentSlide === totalSlides - 1) {
+        finalMessage.classList.add('visible');
+        // ПОКАЗЫВАЕМ кнопку игры (если игра еще не пройдена)
+        if (!gameWon) { // Добавь переменную gameWon в начало скрипта
+            gameStartBtn.classList.remove('hidden');
         }
+    } else {
+        finalMessage.classList.remove('visible');
+        // НЕ ПРЯЧЕМ кнопку игры! Убираем эту строку:
+        // gameStartBtn.classList.add('hidden');
     }
-
+}
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => goToSlide(index));
         // Для мобильных
@@ -472,18 +475,18 @@
         }, 500);
     }
 
-    function win() {
-        endGame();
-        bonusMessage.classList.add('visible');
-
-        // Фейерверк победы
-        for (let i = 0; i < 30; i++) {
-            setTimeout(() => createFirework(), i * 70);
-        }
-
-        // Виброотклик
-        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+function win() {
+    gameWon = true; // запоминаем, что игра пройдена
+    endGame();
+    bonusMessage.classList.add('visible');
+    
+    // Фейерверк победы
+    for (let i = 0; i < 30; i++) {
+        setTimeout(() => createFirework(), i * 70);
     }
+    
+    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
+}
 
     // ========== ФЕЙЕРВЕРК ==========
     function createFirework() {
