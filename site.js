@@ -1,4 +1,6 @@
 window.addEventListener('load', function() {
+    console.log('Сайт загружается...');
+    
     // ========== ОСНОВНЫЕ ЭЛЕМЕНТЫ ==========
     const startScreen = document.getElementById('startScreen');
     const mainContent = document.getElementById('mainContent');
@@ -19,6 +21,12 @@ window.addEventListener('load', function() {
     const bonusMessage = document.getElementById('bonusMessage');
     const closeBonus = document.getElementById('closeBonus');
     
+    console.log('Элементы найдены:', { 
+        gameStartBtn: !!gameStartBtn, 
+        slides: slides.length,
+        finalMessage: !!finalMessage 
+    });
+    
     // ========== ПЕРЕМЕННЫЕ ==========
     let currentSlide = 0;
     let autoPlay = true;
@@ -33,7 +41,7 @@ window.addEventListener('load', function() {
     let catcherX = 50;
     let combo = 0;
     let lastCatchTime = 0;
-    let gameWon = false; // Флаг победы в игре
+    let gameWon = false;
     
     // Для мобильных свайпов
     let touchStartX = 0;
@@ -64,29 +72,33 @@ window.addEventListener('load', function() {
     
     // ========== СЛАЙДЕР ==========
     function goToSlide(index) {
+        console.log('Переход на слайд:', index, 'Всего слайдов:', totalSlides);
+        
         currentSlide = index;
         sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
         
+        // Обновляем точки
         dots.forEach((dot, i) => {
             dot.classList.toggle('active', i === currentSlide);
         });
         
-        // На последнем слайде показываем финальное сообщение И кнопку игры (если еще не победа)
+        // На последнем слайде
         if (currentSlide === totalSlides - 1) {
-            finalMessage.classList.add('visible');
+            console.log('Последний слайд!');
+            if (finalMessage) finalMessage.classList.add('visible');
             
-            // Показываем кнопку игры, только если еще не победили
-            if (!gameWon) {
+            // ПОКАЗЫВАЕМ КНОПКУ ИГРЫ (если еще не победа)
+            if (!gameWon && gameStartBtn) {
+                console.log('Показываем кнопку игры');
                 gameStartBtn.classList.remove('hidden');
             }
         } else {
-            finalMessage.classList.remove('visible');
-            // На других слайдах кнопку НЕ ПРЯЧЕМ, она остается видимой
-            // Но если игра уже пройдена, то кнопка не показывается нигде
+            if (finalMessage) finalMessage.classList.remove('visible');
+            // НЕ ПРЯЧЕМ КНОПКУ на других слайдах
         }
     }
     
-    // Обработчики для точек
+    // Точки
     dots.forEach((dot, index) => {
         dot.addEventListener('click', () => goToSlide(index));
         dot.addEventListener('touchstart', (e) => {
@@ -120,6 +132,7 @@ window.addEventListener('load', function() {
         });
     }
     
+    // Автопрокрутка
     function startAutoPlay() {
         if (slideInterval) clearInterval(slideInterval);
         slideInterval = setInterval(() => {
@@ -171,12 +184,13 @@ window.addEventListener('load', function() {
     // ========== СТАРТОВЫЙ ЭКРАН ==========
     if (startScreen) {
         startScreen.addEventListener('click', () => {
+            console.log('Клик по стартовому экрану');
             startScreen.classList.add('hidden');
             mainContent.classList.add('visible');
             startAutoPlay();
             setTimeout(() => goToSlide(0), 100);
             
-            // Фейерверк при открытии
+            // Фейерверк
             for (let i = 0; i < 10; i++) {
                 setTimeout(() => createFirework(), i * 100);
             }
@@ -198,12 +212,15 @@ window.addEventListener('load', function() {
     // ========== ИГРА ==========
     if (gameStartBtn) {
         gameStartBtn.addEventListener('click', () => {
+            console.log('Клик по кнопке игры');
             startGame();
         });
         gameStartBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             startGame();
         });
+    } else {
+        console.error('Кнопка игры не найдена!');
     }
     
     if (exitGame) {
@@ -227,6 +244,7 @@ window.addEventListener('load', function() {
     }
     
     function startGame() {
+        console.log('Запуск игры');
         gameActive = true;
         score = 0;
         lives_count = 3;
@@ -376,7 +394,7 @@ window.addEventListener('load', function() {
                 updateScore();
                 updateLives();
                 
-                if (score >= 7) { // Цель - 7 очков
+                if (score >= 7) {
                     win();
                 }
                 
@@ -434,7 +452,7 @@ window.addEventListener('load', function() {
     }
     
     function updateScore() {
-        scoreEl.textContent = score;
+        if (scoreEl) scoreEl.textContent = score;
     }
     
     function updateLives() {
@@ -448,23 +466,24 @@ window.addEventListener('load', function() {
     }
     
     function gameOver() {
+        console.log('Игра проиграна');
         endGame();
         alert('Ой! Сердечки разбились... Но ты можешь попробовать еще раз! ❤️');
         
         setTimeout(() => {
-            if (!gameWon) {
+            if (!gameWon && gameStartBtn) {
                 gameStartBtn.classList.remove('hidden');
             }
         }, 500);
     }
     
     function win() {
-        gameWon = true; // Запоминаем победу
+        console.log('Победа!');
+        gameWon = true;
         endGame();
         bonusMessage.classList.add('visible');
         
-        // Прячем кнопку игры навсегда
-        gameStartBtn.classList.add('hidden');
+        if (gameStartBtn) gameStartBtn.classList.add('hidden');
         
         for (let i = 0; i < 30; i++) {
             setTimeout(() => createFirework(), i * 70);
@@ -495,7 +514,7 @@ window.addEventListener('load', function() {
         setTimeout(() => firework.remove(), 1000);
     }
     
-    // Добавляем стили для анимаций
+    // Стили для анимаций
     const style = document.createElement('style');
     style.textContent = `
         @keyframes firework {
@@ -530,10 +549,18 @@ window.addEventListener('load', function() {
     `;
     document.head.appendChild(style);
     
-    // Инициализация первого слайда
+    // Принудительно показываем кнопку на последнем слайде при загрузке
     setTimeout(() => {
-        goToSlide(0);
-    }, 100);
+        console.log('Инициализация...');
+        if (totalSlides > 0) {
+            goToSlide(0);
+        }
+        
+        // Проверяем, если уже последний слайд - показываем кнопку
+        if (currentSlide === totalSlides - 1 && !gameWon && gameStartBtn) {
+            gameStartBtn.classList.remove('hidden');
+        }
+    }, 500);
     
-    console.log('Сайт загружен! ❤️');
+    console.log('Сайт загружен!');
 });
