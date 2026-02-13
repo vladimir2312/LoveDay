@@ -20,11 +20,6 @@ window.addEventListener('load', function() {
     const bonusMessage = document.getElementById('bonusMessage');
     const closeBonus = document.getElementById('closeBonus');
     
-    console.log('Элементы найдены:', { 
-        gameStartBtn: !!gameStartBtn, 
-        slides: slides.length
-    });
-    
     // ========== ПЕРЕМЕННЫЕ ==========
     let currentSlide = 0;
     const totalSlides = slides.length;
@@ -67,8 +62,6 @@ window.addEventListener('load', function() {
     
     // ========== СЛАЙДЕР ==========
     function goToSlide(index) {
-        console.log('Переход на слайд:', index, 'Всего слайдов:', totalSlides);
-        
         currentSlide = index;
         if (sliderTrack) {
             sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -79,21 +72,23 @@ window.addEventListener('load', function() {
             dot.classList.toggle('active', i === currentSlide);
         });
         
-        // Логика показа кнопки ТОЛЬКО на последнем слайде
-        if (currentSlide === totalSlides - 1) {
-            console.log('Последний слайд!');
-            if (finalMessage) finalMessage.classList.add('visible');
-            
-            // Показываем кнопку ТОЛЬКО если игра не активна и не пройдена
-            if (!gameActive && !gameWon && gameStartBtn) {
-                console.log('Показываем кнопку игры');
+        // УПРАВЛЕНИЕ КНОПКОЙ - ТОЛЬКО ТУТ!
+        if (gameStartBtn) {
+            if (currentSlide === totalSlides - 1 && !gameActive && !gameWon) {
+                // Последний слайд, игра не активна, не победа - ПОКАЗЫВАЕМ
                 gameStartBtn.classList.remove('hidden');
-            }
-        } else {
-            if (finalMessage) finalMessage.classList.remove('visible');
-            // На всех других слайдах кнопка скрыта
-            if (gameStartBtn && !gameActive) {
+            } else {
+                // Во всех остальных случаях - ПРЯЧЕМ
                 gameStartBtn.classList.add('hidden');
+            }
+        }
+        
+        // Финальное сообщение только на последнем слайде
+        if (finalMessage) {
+            if (currentSlide === totalSlides - 1) {
+                finalMessage.classList.add('visible');
+            } else {
+                finalMessage.classList.remove('visible');
             }
         }
     }
@@ -159,7 +154,6 @@ window.addEventListener('load', function() {
     // ========== СТАРТОВЫЙ ЭКРАН ==========
     if (startScreen) {
         startScreen.addEventListener('click', () => {
-            console.log('Клик по стартовому экрану');
             startScreen.classList.add('hidden');
             mainContent.classList.add('visible');
             setTimeout(() => goToSlide(0), 100);
@@ -175,19 +169,15 @@ window.addEventListener('load', function() {
     
     // ========== ИГРА ==========
     if (gameStartBtn) {
-        console.log('Кнопка игры найдена');
-        
         gameStartBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Клик по кнопке игры');
             startGame();
         });
         
         gameStartBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Тап по кнопке игры');
             startGame();
         });
     }
@@ -213,7 +203,6 @@ window.addEventListener('load', function() {
     }
     
     function startGame() {
-        console.log('Запуск игры');
         gameActive = true;
         score = 0;
         lives_count = 3;
@@ -226,7 +215,7 @@ window.addEventListener('load', function() {
             gameContainer.classList.remove('hidden');
         }
         
-        // Прячем кнопку игры ПРИ ЗАПУСКЕ
+        // ПРЯЧЕМ КНОПКУ ПРИ ЗАПУСКЕ
         if (gameStartBtn) {
             gameStartBtn.classList.add('hidden');
         }
@@ -254,8 +243,7 @@ window.addEventListener('load', function() {
             gameArea.removeEventListener('mousemove', moveCatcher);
         }
         
-        // После игры проверяем, нужно ли показать кнопку
-        // Показываем только если не победа и мы на последнем слайде
+        // ВОЗВРАЩАЕМ КНОПКУ ТОЛЬКО ЕСЛИ МЫ НА ПОСЛЕДНЕМ СЛАЙДЕ И НЕ ПОБЕДА
         if (!gameWon && gameStartBtn && currentSlide === totalSlides - 1) {
             gameStartBtn.classList.remove('hidden');
         }
@@ -434,13 +422,11 @@ window.addEventListener('load', function() {
     }
     
     function gameOver() {
-        console.log('Игра проиграна');
         endGame();
         alert('Ой! Сердечки разбились... Попробуй еще раз! ❤️');
     }
     
     function win() {
-        console.log('Победа!');
         gameWon = true;
         gameActive = false;
         
@@ -449,7 +435,9 @@ window.addEventListener('load', function() {
         if (bonusMessage) bonusMessage.classList.add('visible');
         
         // Кнопка навсегда скрыта после победы
-        if (gameStartBtn) gameStartBtn.classList.add('hidden');
+        if (gameStartBtn) {
+            gameStartBtn.classList.add('hidden');
+        }
         
         for (let i = 0; i < 30; i++) {
             setTimeout(() => createFirework(), i * 70);
@@ -493,11 +481,6 @@ window.addEventListener('load', function() {
     
     // Инициализация
     setTimeout(() => {
-        console.log('Инициализация...');
-        if (totalSlides > 0) {
-            goToSlide(0);
-        }
+        goToSlide(0);
     }, 500);
-    
-    console.log('Сайт загружен!');
 });
