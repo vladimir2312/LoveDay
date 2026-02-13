@@ -14,7 +14,7 @@ body {
     position: relative;
 }
 
-/* Градиентный фон */
+/* ГѓГ°Г Г¤ГЁГҐГ­ГІГ­Г»Г© ГґГ®Г­ */
 .gradient-bg {
     position: fixed;
     top: 0;
@@ -81,7 +81,7 @@ body {
     }
 }
 
-/* Плавающие сердечки */
+/* ГЏГ«Г ГўГ ГѕГ№ГЁГҐ Г±ГҐГ°Г¤ГҐГ·ГЄГЁ */
 .floating-hearts {
     position: fixed;
     top: 0;
@@ -155,7 +155,7 @@ body {
     }
 }
 
-/* Стартовый экран */
+/* Г‘ГІГ Г°ГІГ®ГўГ»Г© ГЅГЄГ°Г Г­ */
 .start {
     position: fixed;
     top: 0;
@@ -261,7 +261,7 @@ body {
     }
 }
 
-/* Основной контент */
+/* ГЋГ±Г­Г®ГўГ­Г®Г© ГЄГ®Г­ГІГҐГ­ГІ */
 .content {
     position: fixed;
     top: 0;
@@ -287,7 +287,7 @@ body {
     z-index: 3;
 }
 
-/* Заголовок */
+/* Г‡Г ГЈГ®Г«Г®ГўГ®ГЄ */
 .title {
     display: flex;
     align-items: center;
@@ -338,7 +338,7 @@ body {
     animation: heartbeat 1.5s infinite;
 }
 
-/* Таймер */
+/* Г’Г Г©Г¬ГҐГ° */
 .timer {
     display: flex;
     align-items: center;
@@ -380,7 +380,7 @@ body {
     margin-bottom: 15px;
 }
 
-/* Слайдер */
+/* Г‘Г«Г Г©Г¤ГҐГ° */
 .slider-container {
     position: relative;
     margin-bottom: 40px;
@@ -437,7 +437,7 @@ body {
     opacity: 1;
 }
 
-/* Стрелки навигации */
+/* Г‘ГІГ°ГҐГ«ГЄГЁ Г­Г ГўГЁГЈГ Г¶ГЁГЁ */
 .slider-arrow {
     position: absolute;
     top: 50%;
@@ -475,7 +475,7 @@ body {
         height: 24px;
     }
 
-/* Индикаторы */
+/* Г€Г­Г¤ГЁГЄГ ГІГ®Г°Г» */
 .dots {
     display: flex;
     justify-content: center;
@@ -498,7 +498,7 @@ body {
         box-shadow: 0 0 20px #ff4d4d;
     }
 
-/* Финальное сообщение */
+/* Г”ГЁГ­Г Г«ГјГ­Г®ГҐ Г±Г®Г®ГЎГ№ГҐГ­ГЁГҐ */
 .message {
     position: absolute;
     top: 0;
@@ -631,7 +631,7 @@ body {
     letter-spacing: 1px;
 }
 
-/* Кнопка паузы */
+/* ГЉГ­Г®ГЇГЄГ  ГЇГ ГіГ§Г» */
 .pause {
     position: absolute;
     bottom: -30px;
@@ -661,7 +661,7 @@ body {
         height: 15px;
     }
 
-/* Адаптация */
+/* ГЂГ¤Г ГЇГІГ Г¶ГЁГї */
 @media (max-width: 480px) {
     .title {
         font-size: 28px;
@@ -692,7 +692,7 @@ body {
         font-size: 16px;
     }
 }
-/* Игра */
+/* Г€ГЈГ°Г  */
 .game-start {
     text-align: center;
     margin: 30px 0;
@@ -845,7 +845,7 @@ body {
         transform: scale(1.1);
     }
 
-/* Бонусное сообщение */
+/* ГЃГ®Г­ГіГ±Г­Г®ГҐ Г±Г®Г®ГЎГ№ГҐГ­ГЁГҐ */
 .bonus-message {
     position: fixed;
     top: 0;
@@ -956,3 +956,41 @@ body {
         background: rgba(255,255,255,0.2);
         transform: scale(1.1);
     }
+/* Р‘Р°Р·РѕРІС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё РґР»СЏ РјРѕР±РёР»СЊРЅС‹С… */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent; /* СѓР±РёСЂР°РµС‚ СЃРµСЂС‹Р№ С„РѕРЅ РїСЂРё С‚Р°РїРµ */
+}
+
+html {
+    -webkit-text-size-adjust: 100%; /* Р·Р°РїСЂРµС‰Р°РµС‚ РјР°СЃС€С‚Р°Р±РёСЂРѕРІР°РЅРёРµ С‚РµРєСЃС‚Р° */
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+    background: #1a1a2e;
+}
+
+/* РљРѕРЅС‚РµР№РЅРµСЂ */
+.container {
+    max-width: 500px;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3;
+}
+
+/* Р”Р»СЏ РѕС‡РµРЅСЊ Р±РѕР»СЊС€РёС… СЌРєСЂР°РЅРѕРІ */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 600px;
+    }
+}
