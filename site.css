@@ -994,46 +994,7 @@ body {
         max-width: 600px;
     }
 }
-/* Фикс для кнопки игры на телефоне */
-#gameStartBtn {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    z-index: 9999 !important;
-    position: relative !important;
-    margin: 20px auto !important;
-}
 
-.game-start-btn {
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    cursor: pointer !important;
-    -webkit-tap-highlight-color: transparent !important;
-}
-
-/* Убираем автопрокрутку */
-.slider-track {
-    transition: transform 0.3s ease;
-}
-/* Специально для мобильных устройств */
-@media (max-width: 768px) {
- 
-    
-    
-    
-    /* Убираем автопрокрутку */
-    .slider-track {
-        transition: transform 0.3s ease !important;
-    }
-    
-    /* Отключаем любые анимации автопрокрутки */
-    .slider-container {
-        animation: none !important;
-    }
-}
 
 /* Для очень маленьких экранов */
 @media (max-width: 380px) {
