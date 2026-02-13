@@ -213,24 +213,24 @@ window.addEventListener('load', function() {
     }
     
     function startGame() {
-        console.log('Запуск игры');
-        gameActive = true;
-        score = 0;
-        lives_count = 3;
-        combo = 0;
-        updateScore();
-        updateLives();
-        
-        if (gameArea) gameArea.innerHTML = '';
-        if (gameContainer) {
-            gameContainer.classList.remove('hidden');
-        }
-        
-        // Прячем кнопку игры ПРИ ЗАПУСКЕ
-        if (gameStartBtn) {
-            gameStartBtn.classList.add('hidden');
-        }
-        
+    console.log('Запуск игры');
+    gameActive = true;
+    score = 0;
+    lives_count = 3;
+    combo = 0;
+    updateScore();
+    updateLives();
+    
+    if (gameArea) gameArea.innerHTML = '';
+    if (gameContainer) {
+        gameContainer.classList.remove('hidden');
+    }
+    
+    // ПРЯЧЕМ КНОПКУ - ТАК ТОЧНО РАБОТАЕТ
+    if (gameStartBtn) {
+        gameStartBtn.classList.add('hidden');
+        gameStartBtn.style.display = 'none';  // Добавь это на всякий случай
+    }
         if (gameInterval) clearInterval(gameInterval);
         gameInterval = setInterval(() => {
             if (gameActive) {
