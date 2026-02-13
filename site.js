@@ -91,12 +91,12 @@ window.addEventListener('load', function() {
                 console.log('Показываем кнопку игры');
                 gameStartBtn.classList.remove('hidden');
                 
-                // Для телефона: принудительно убираем возможные блокировки
-                gameStartBtn.style.display = 'flex';
+                // Для телефона: принудительно показываем
+                gameStartBtn.style.display = 'block';
                 gameStartBtn.style.visibility = 'visible';
                 gameStartBtn.style.opacity = '1';
                 gameStartBtn.style.pointerEvents = 'auto';
-                gameStartBtn.style.zIndex = '9999';
+                gameStartBtn.style.zIndex = '10000';
             }
         } else {
             if (finalMessage) finalMessage.classList.remove('visible');
@@ -202,13 +202,11 @@ window.addEventListener('load', function() {
         });
         
         // Принудительные стили для телефона
-        gameStartBtn.style.display = 'flex';
+        gameStartBtn.style.display = 'block';
         gameStartBtn.style.visibility = 'visible';
         gameStartBtn.style.opacity = '1';
         gameStartBtn.style.pointerEvents = 'auto';
-        gameStartBtn.style.cursor = 'pointer';
-        gameStartBtn.style.zIndex = '9999';
-        gameStartBtn.style.position = 'relative';
+        gameStartBtn.style.zIndex = '10000';
     } else {
         console.error('Кнопка игры не найдена!');
     }
@@ -283,10 +281,11 @@ window.addEventListener('load', function() {
             gameStartBtn.classList.remove('hidden');
             
             // Для телефона
-            gameStartBtn.style.display = 'flex';
+            gameStartBtn.style.display = 'block';
             gameStartBtn.style.visibility = 'visible';
             gameStartBtn.style.opacity = '1';
             gameStartBtn.style.pointerEvents = 'auto';
+            gameStartBtn.style.zIndex = '10000';
         }
     }
     
@@ -488,10 +487,11 @@ window.addEventListener('load', function() {
                 gameStartBtn.classList.remove('hidden');
                 
                 // Для телефона
-                gameStartBtn.style.display = 'flex';
+                gameStartBtn.style.display = 'block';
                 gameStartBtn.style.visibility = 'visible';
                 gameStartBtn.style.opacity = '1';
                 gameStartBtn.style.pointerEvents = 'auto';
+                gameStartBtn.style.zIndex = '10000';
             }
         }, 500);
     }
@@ -568,7 +568,7 @@ window.addEventListener('load', function() {
     `;
     document.head.appendChild(style);
     
-    // Принудительно показываем кнопку на последнем слайде при загрузке
+    // Принудительно показываем первый слайд
     setTimeout(() => {
         console.log('Инициализация...');
         if (totalSlides > 0) {
