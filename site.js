@@ -10,7 +10,6 @@ window.addEventListener('load', function() {
     const prevBtn = document.getElementById('prevSlide');
     const nextBtn = document.getElementById('nextSlide');
     const finalMessage = document.getElementById('finalMessage');
-    const pauseBtn = document.getElementById('pauseBtn');
     const gameStartBtn = document.getElementById('gameStartBtn');
     const gameContainer = document.getElementById('gameContainer');
     const gameArea = document.getElementById('gameArea');
@@ -24,12 +23,12 @@ window.addEventListener('load', function() {
     console.log('Элементы найдены:', { 
         gameStartBtn: !!gameStartBtn, 
         slides: slides.length,
-        finalMessage: !!finalMessage 
+        gameContainer: !!gameContainer
     });
     
     // ========== ПЕРЕМЕННЫЕ ==========
     let currentSlide = 0;
-    let autoPlay = true;
+    let autoPlay = false; // Автопрокрутка отключена
     let slideInterval;
     const totalSlides = slides.length;
     
@@ -75,7 +74,9 @@ window.addEventListener('load', function() {
         console.log('Переход на слайд:', index, 'Всего слайдов:', totalSlides);
         
         currentSlide = index;
-        sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+        if (sliderTrack) {
+            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
         
         // Обновляем точки
         dots.forEach((dot, i) => {
@@ -132,20 +133,6 @@ window.addEventListener('load', function() {
         });
     }
     
-    // Автопрокрутка
-     function startAutoPlay() {
-        if (slideInterval) clearInterval(slideInterval);
-        slideInterval = setInterval(() => {
-            if (autoPlay) {
-                const next = (currentSlide + 1) % totalSlides;
-                goToSlide(next);
-            }
-        }, 4000);
-    }
-    
-    
-    
-    
     // Свайпы
     if (sliderTrack) {
         sliderTrack.addEventListener('touchstart', (e) => {
@@ -178,7 +165,6 @@ window.addEventListener('load', function() {
             console.log('Клик по стартовому экрану');
             startScreen.classList.add('hidden');
             mainContent.classList.add('visible');
-            startAutoPlay();
             setTimeout(() => goToSlide(0), 100);
             
             // Фейерверк
@@ -191,7 +177,6 @@ window.addEventListener('load', function() {
             e.preventDefault();
             startScreen.classList.add('hidden');
             mainContent.classList.add('visible');
-            startAutoPlay();
             setTimeout(() => goToSlide(0), 100);
             
             for (let i = 0; i < 10; i++) {
@@ -202,14 +187,33 @@ window.addEventListener('load', function() {
     
     // ========== ИГРА ==========
     if (gameStartBtn) {
-        gameStartBtn.addEventListener('click', () => {
+        console.log('Кнопка игры найдена, вешаем обработчики');
+        
+        // Убираем возможные старые обработчики
+        gameStartBtn.replaceWith(gameStartBtn.cloneNode(true));
+        
+        // Получаем новую ссылку на кнопку
+        const newGameStartBtn = document.getElementById('gameStartBtn');
+        
+        newGameStartBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
             console.log('Клик по кнопке игры');
             startGame();
         });
-        gameStartBtn.addEventListener('touchstart', (e) => {
+        
+        newGameStartBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
+            e.stopPropagation();
+            console.log('Тап по кнопке игры');
             startGame();
         });
+        
+        // Убеждаемся что кнопка видима и доступна
+        newGameStartBtn.style.pointerEvents = 'auto';
+        newGameStartBtn.style.cursor = 'pointer';
+        newGameStartBtn.style.zIndex = '9999';
+        newGameStartBtn.style.position = 'relative';
     } else {
         console.error('Кнопка игры не найдена!');
     }
@@ -243,8 +247,14 @@ window.addEventListener('load', function() {
         updateScore();
         updateLives();
         
-        gameArea.innerHTML = '';
-        gameContainer.classList.remove('hidden');
+        if (gameArea) gameArea.innerHTML = '';
+        if (gameContainer) {
+            gameContainer.classList.remove('hidden');
+            console.log('Игра показана');
+        }
+        
+        // Прячем кнопку игры
+        if (gameStartBtn) gameStartBtn.classList.add('hidden');
         
         if (gameInterval) clearInterval(gameInterval);
         gameInterval = setInterval(() => {
@@ -253,24 +263,34 @@ window.addEventListener('load', function() {
             }
         }, 600);
         
-        gameArea.addEventListener('touchmove', moveCatcherTouch, { passive: false });
-        gameArea.addEventListener('mousemove', moveCatcher);
-        
-        gameArea.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-        });
+        if (gameArea) {
+            gameArea.addEventListener('touchmove', moveCatcherTouch, { passive: false });
+            gameArea.addEventListener('mousemove', moveCatcher);
+            
+            gameArea.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+            });
+        }
     }
     
     function endGame() {
         gameActive = false;
-        gameContainer.classList.add('hidden');
-        clearInterval(gameInterval);
-        gameArea.removeEventListener('touchmove', moveCatcherTouch);
-        gameArea.removeEventListener('mousemove', moveCatcher);
+        if (gameContainer) gameContainer.classList.add('hidden');
+        if (gameInterval) clearInterval(gameInterval);
+        
+        if (gameArea) {
+            gameArea.removeEventListener('touchmove', moveCatcherTouch);
+            gameArea.removeEventListener('mousemove', moveCatcher);
+        }
+        
+        // Показываем кнопку игры снова (если не победа)
+        if (!gameWon && gameStartBtn) {
+            gameStartBtn.classList.remove('hidden');
+        }
     }
     
     function moveCatcher(e) {
-        if (!gameActive) return;
+        if (!gameActive || !catcher || !gameArea) return;
         const rect = gameArea.getBoundingClientRect();
         let x = e.clientX - rect.left;
         x = Math.max(50, Math.min(rect.width - 50, x));
@@ -279,7 +299,7 @@ window.addEventListener('load', function() {
     }
     
     function moveCatcherTouch(e) {
-        if (!gameActive) return;
+        if (!gameActive || !catcher || !gameArea) return;
         e.preventDefault();
         const rect = gameArea.getBoundingClientRect();
         let x = e.touches[0].clientX - rect.left;
@@ -289,7 +309,7 @@ window.addEventListener('load', function() {
     }
     
     function createHeart() {
-        if (!gameActive) return;
+        if (!gameActive || !gameArea) return;
         
         const rand = Math.random();
         let type = 'good';
@@ -318,9 +338,9 @@ window.addEventListener('load', function() {
         gameArea.appendChild(heart);
         
         const fallInterval = setInterval(() => {
-            if (!gameActive) {
+            if (!gameActive || !catcher || !gameArea) {
                 clearInterval(fallInterval);
-                heart.remove();
+                if (heart) heart.remove();
                 return;
             }
             
@@ -425,6 +445,7 @@ window.addEventListener('load', function() {
     }
     
     function showCombo() {
+        if (!gameArea) return;
         const comboEl = document.createElement('div');
         comboEl.textContent = 'x3 COMBO!';
         comboEl.style.position = 'absolute';
@@ -472,7 +493,7 @@ window.addEventListener('load', function() {
         console.log('Победа!');
         gameWon = true;
         endGame();
-        bonusMessage.classList.add('visible');
+        if (bonusMessage) bonusMessage.classList.add('visible');
         
         if (gameStartBtn) gameStartBtn.classList.add('hidden');
         
@@ -550,6 +571,14 @@ window.addEventListener('load', function() {
         // Проверяем, если уже последний слайд - показываем кнопку
         if (currentSlide === totalSlides - 1 && !gameWon && gameStartBtn) {
             gameStartBtn.classList.remove('hidden');
+        }
+        
+        // Убеждаемся что кнопка доступна для клика
+        if (gameStartBtn) {
+            gameStartBtn.style.pointerEvents = 'auto';
+            gameStartBtn.style.cursor = 'pointer';
+            gameStartBtn.style.position = 'relative';
+            gameStartBtn.style.zIndex = '9999';
         }
     }, 500);
     
