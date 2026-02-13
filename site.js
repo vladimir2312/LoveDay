@@ -133,27 +133,6 @@ window.addEventListener('load', function() {
     }
     
     // Автопрокрутка
-    function startAutoPlay() {
-        if (slideInterval) clearInterval(slideInterval);
-        slideInterval = setInterval(() => {
-            if (autoPlay) {
-                const next = (currentSlide + 1) % totalSlides;
-                goToSlide(next);
-            }
-        }, 4000);
-    }
-    
-    if (pauseBtn) {
-        pauseBtn.addEventListener('click', () => {
-            autoPlay = !autoPlay;
-            pauseBtn.style.opacity = autoPlay ? '0.5' : '1';
-        });
-        pauseBtn.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            autoPlay = !autoPlay;
-            pauseBtn.style.opacity = autoPlay ? '0.5' : '1';
-        });
-    }
     
     // Свайпы
     if (sliderTrack) {
@@ -394,7 +373,7 @@ window.addEventListener('load', function() {
                 updateScore();
                 updateLives();
                 
-                if (score >= 7) {
+                if (score >= 25) {
                     win();
                 }
                 
