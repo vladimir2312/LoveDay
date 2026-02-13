@@ -1020,40 +1020,9 @@ body {
 }
 /* Специально для мобильных устройств */
 @media (max-width: 768px) {
-    /* Кнопка игры на телефоне */
-    #gameStartBtn {
-        display: block !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        z-index: 10000 !important;
-        position: relative !important;
-        margin: 30px auto !important;
-        width: 100% !important;
-        text-align: center !important;
-    }
+ 
     
-    .game-start-btn {
-        display: inline-flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        cursor: pointer !important;
-        background: linear-gradient(45deg, #ff4d4d, #ff6b6b) !important;
-        color: white !important;
-        border: none !important;
-        padding: 15px 30px !important;
-        border-radius: 50px !important;
-        font-size: 18px !important;
-        box-shadow: 0 10px 30px rgba(255,71,87,0.5) !important;
-        -webkit-tap-highlight-color: transparent !important;
-        transform: scale(1) !important;
-        transition: transform 0.2s !important;
-    }
     
-    .game-start-btn:active {
-        transform: scale(0.95) !important;
-    }
     
     /* Убираем автопрокрутку */
     .slider-track {
