@@ -28,8 +28,6 @@ window.addEventListener('load', function() {
     
     // ========== ПЕРЕМЕННЫЕ ==========
     let currentSlide = 0;
-    let autoPlay = false; // Автопрокрутка отключена
-    let slideInterval;
     const totalSlides = slides.length;
     
     // Переменные игры
@@ -92,6 +90,13 @@ window.addEventListener('load', function() {
             if (!gameWon && gameStartBtn) {
                 console.log('Показываем кнопку игры');
                 gameStartBtn.classList.remove('hidden');
+                
+                // Для телефона: принудительно убираем возможные блокировки
+                gameStartBtn.style.display = 'flex';
+                gameStartBtn.style.visibility = 'visible';
+                gameStartBtn.style.opacity = '1';
+                gameStartBtn.style.pointerEvents = 'auto';
+                gameStartBtn.style.zIndex = '9999';
             }
         } else {
             if (finalMessage) finalMessage.classList.remove('visible');
@@ -166,11 +171,6 @@ window.addEventListener('load', function() {
             startScreen.classList.add('hidden');
             mainContent.classList.add('visible');
             setTimeout(() => goToSlide(0), 100);
-            
-            // Фейерверк
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => createFirework(), i * 100);
-            }
         });
         
         startScreen.addEventListener('touchstart', (e) => {
@@ -178,10 +178,6 @@ window.addEventListener('load', function() {
             startScreen.classList.add('hidden');
             mainContent.classList.add('visible');
             setTimeout(() => goToSlide(0), 100);
-            
-            for (let i = 0; i < 10; i++) {
-                setTimeout(() => createFirework(), i * 100);
-            }
         });
     }
     
@@ -189,31 +185,30 @@ window.addEventListener('load', function() {
     if (gameStartBtn) {
         console.log('Кнопка игры найдена, вешаем обработчики');
         
-        // Убираем возможные старые обработчики
-        gameStartBtn.replaceWith(gameStartBtn.cloneNode(true));
-        
-        // Получаем новую ссылку на кнопку
-        const newGameStartBtn = document.getElementById('gameStartBtn');
-        
-        newGameStartBtn.addEventListener('click', (e) => {
+        // Обработчик для клика
+        gameStartBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
             console.log('Клик по кнопке игры');
             startGame();
         });
         
-        newGameStartBtn.addEventListener('touchstart', (e) => {
+        // Обработчик для касания на телефоне
+        gameStartBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             e.stopPropagation();
             console.log('Тап по кнопке игры');
             startGame();
         });
         
-        // Убеждаемся что кнопка видима и доступна
-        newGameStartBtn.style.pointerEvents = 'auto';
-        newGameStartBtn.style.cursor = 'pointer';
-        newGameStartBtn.style.zIndex = '9999';
-        newGameStartBtn.style.position = 'relative';
+        // Принудительные стили для телефона
+        gameStartBtn.style.display = 'flex';
+        gameStartBtn.style.visibility = 'visible';
+        gameStartBtn.style.opacity = '1';
+        gameStartBtn.style.pointerEvents = 'auto';
+        gameStartBtn.style.cursor = 'pointer';
+        gameStartBtn.style.zIndex = '9999';
+        gameStartBtn.style.position = 'relative';
     } else {
         console.error('Кнопка игры не найдена!');
     }
@@ -286,6 +281,12 @@ window.addEventListener('load', function() {
         // Показываем кнопку игры снова (если не победа)
         if (!gameWon && gameStartBtn) {
             gameStartBtn.classList.remove('hidden');
+            
+            // Для телефона
+            gameStartBtn.style.display = 'flex';
+            gameStartBtn.style.visibility = 'visible';
+            gameStartBtn.style.opacity = '1';
+            gameStartBtn.style.pointerEvents = 'auto';
         }
     }
     
@@ -485,6 +486,12 @@ window.addEventListener('load', function() {
         setTimeout(() => {
             if (!gameWon && gameStartBtn) {
                 gameStartBtn.classList.remove('hidden');
+                
+                // Для телефона
+                gameStartBtn.style.display = 'flex';
+                gameStartBtn.style.visibility = 'visible';
+                gameStartBtn.style.opacity = '1';
+                gameStartBtn.style.pointerEvents = 'auto';
             }
         }, 500);
     }
@@ -566,19 +573,6 @@ window.addEventListener('load', function() {
         console.log('Инициализация...');
         if (totalSlides > 0) {
             goToSlide(0);
-        }
-        
-        // Проверяем, если уже последний слайд - показываем кнопку
-        if (currentSlide === totalSlides - 1 && !gameWon && gameStartBtn) {
-            gameStartBtn.classList.remove('hidden');
-        }
-        
-        // Убеждаемся что кнопка доступна для клика
-        if (gameStartBtn) {
-            gameStartBtn.style.pointerEvents = 'auto';
-            gameStartBtn.style.cursor = 'pointer';
-            gameStartBtn.style.position = 'relative';
-            gameStartBtn.style.zIndex = '9999';
         }
     }, 500);
     
