@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С 14 февраля ❤️</title>
+    <link rel="stylesheet" href="/css/site.css">
+</head>
+<body>
+    <!-- Анимированный градиентный фон -->
+    <div class="gradient-bg">
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+        <div class="gradient-sphere"></div>
+    </div>
+
+    <!-- Стартовый экран -->
+    <div class="start" id="startScreen">
+        <div class="start-content">
+            <div class="start-envelope">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M4 4L12 12L20 4" stroke-linecap="round" stroke-linejoin="round" />
+                    <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" />
+                </svg>
+                <div class="envelope-heart">❤️</div>
+            </div>
+            <p class="start-text">нажми, чтобы открыть</p>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content" id="mainContent">
+        <div class="container">
+            <!-- Заголовок -->
+            <h1 class="title">
+                <span>С</span>
+                <span>14</span>
+                <span>февраля</span>
+                <span class="title-heart">❤️</span>
+            </h1>
+
+            <!-- Таймер -->
+            <div class="timer" id="timer">
+                <div class="timer-item">
+                    <span class="timer-number" id="hours">00</span>
+                    <span class="timer-label">часов</span>
+                </div>
+                <div class="timer-sep">:</div>
+                <div class="timer-item">
+                    <span class="timer-number" id="minutes">00</span>
+                    <span class="timer-label">минут</span>
+                </div>
+                <div class="timer-sep">:</div>
+                <div class="timer-item">
+                    <span class="timer-number" id="seconds">00</span>
+                    <span class="timer-label">секунд</span>
+                </div>
+            </div>
+
+            <!-- Слайдер с фото -->
+            <div class="slider-container" id="sliderContainer">
+                <div class="slider-frame">
+                    <div class="slider" id="slider">
+                        <div class="slider-track" id="sliderTrack">
+                            <div class="slide">
+                                <img src="/photo1.jpg" alt="Фото 1" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'500\' viewBox=\'0 0 400 500\'%3E%3Crect width=\'400\' height=\'500\' fill=\'%23f0f0f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-family=\'system-ui\'%3E❤️%3C/text%3E%3C/svg%3E'">
+                            </div>
+                            <div class="slide">
+                                <img src="/photo2.jpg" alt="Фото 2" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'500\' viewBox=\'0 0 400 500\'%3E%3Crect width=\'400\' height=\'500\' fill=\'%23f0f0f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-family=\'system-ui\'%3E❤️%3C/text%3E%3C/svg%3E'">
+                            </div>
+                            <div class="slide">
+                                <img src="/photo3.jpg" alt="Фото 3" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'400\' height=\'500\' viewBox=\'0 0 400 500\'%3E%3Crect width=\'400\' height=\'500\' fill=\'%23f0f0f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-family=\'system-ui\'%3E❤️%3C/text%3E%3C/svg%3E'">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Стрелки навигации -->
+                    <button class="slider-arrow prev" id="prevSlide">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 18L9 12L15 6" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <button class="slider-arrow next" id="nextSlide">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 18L15 12L9 6" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Индикаторы -->
+                <div class="dots" id="dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+
+            <!-- Кнопка игры (появляется после просмотра всех фото) -->
+            <div class="game-start hidden" id="gameStartBtn">
+                <button class="game-start-btn">
+                    <span>🎮</span>
+                    <span>собери сердечки для подарка</span>
+                </button>
+            </div>
+
+            <!-- Игра -->
+            <div class="game-container hidden" id="gameContainer">
+                <div class="game-header">
+                    <div class="game-score">
+                        <span>❤️</span>
+                        <span id="score">0</span>
+                        <span>/7</span>
+                    </div>
+                    <div class="game-lives">
+                        <span class="life">❤️</span>
+                        <span class="life">❤️</span>
+                        <span class="life">❤️</span>
+                    </div>
+                </div>
+
+                <div class="game-area" id="gameArea">
+                    <!-- Сердечки будут появляться здесь -->
+                </div>
+
+                <div class="game-catcher" id="catcher">
+                    <div class="catcher-heart">❤️</div>
+                </div>
+
+                <button class="game-exit" id="exitGame">×</button>
+            </div>
+
+            <!-- Финальное сообщение (обычное) -->
+            <div class="message hidden" id="finalMessage">
+                <div class="message-card">
+                    <div class="message-heart">❤️</div>
+                    <div class="message-photo">
+                        <img src="/couple.jpg" alt="Мы" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\' viewBox=\'0 0 200 200\'%3E%3Ccircle cx=\'100\' cy=\'100\' r=\'90\' fill=\'%23ff4d4d\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23fff\' font-size=\'60\'%3E❤️%3C/text%3E%3C/svg%3E'">
+                    </div>
+                    <p class="message-text">
+                        Ты увидела меня маленьким,<br>
+                        <span class="message-highlight">а я хочу быть с тобой всегда</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Бонусное сообщение за игру -->
+            <div class="bonus-message hidden" id="bonusMessage">
+                <div class="bonus-card">
+                    <div class="bonus-firework">✨</div>
+                    <h2 class="bonus-title">Ты собрала все сердечки! ❤️</h2>
+                    <div class="bonus-photo">
+                        <img src="/couple.jpg" alt="Мы" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'200\' viewBox=\'0 0 200 200\'%3E%3Ccircle cx=\'100\' cy=\'100\' r=\'90\' fill=\'%23ff4d4d\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23fff\' font-size=\'60\'%3E❤️%3C/text%3E%3C/svg%3E'">
+                    </div>
+                    <p class="bonus-text">
+                        Знаешь, почему я попросил тебя собрать эти сердечки?<br><br>
+                        Потому что каждое сердечко — это частичка моей любви к тебе.<br>
+                        Ты собрала их все, как собрала все кусочки моего сердца.<br><br>
+                        <strong>Я люблю тебя. С 14 февраля, моя девочка.</strong>
+                    </p>
+                    <button class="bonus-close" id="closeBonus">×</button>
+                </div>
+            </div>
+
+            <!-- Кнопка паузы -->
+            <button class="pause" id="pauseBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="6" y="4" width="4" height="16" />
+                    <rect x="14" y="4" width="4" height="16" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <script src="/js/site.js"></script>
+</body>
+</html>
