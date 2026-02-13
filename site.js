@@ -133,6 +133,18 @@ window.addEventListener('load', function() {
     }
     
     // Автопрокрутка
+     function startAutoPlay() {
+        if (slideInterval) clearInterval(slideInterval);
+        slideInterval = setInterval(() => {
+            if (autoPlay) {
+                const next = (currentSlide + 1) % totalSlides;
+                goToSlide(next);
+            }
+        }, 4000);
+    }
+    
+    
+    
     
     // Свайпы
     if (sliderTrack) {
