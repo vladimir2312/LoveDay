@@ -22,8 +22,7 @@ window.addEventListener('load', function() {
     
     console.log('Элементы найдены:', { 
         gameStartBtn: !!gameStartBtn, 
-        slides: slides.length,
-        gameContainer: !!gameContainer
+        slides: slides.length
     });
     
     // ========== ПЕРЕМЕННЫЕ ==========
@@ -35,7 +34,6 @@ window.addEventListener('load', function() {
     let score = 0;
     let lives_count = 3;
     let gameInterval;
-    let catcherX = 50;
     let combo = 0;
     let lastCatchTime = 0;
     let gameWon = false;
@@ -81,26 +79,22 @@ window.addEventListener('load', function() {
             dot.classList.toggle('active', i === currentSlide);
         });
         
-        // На последнем слайде
+        // Логика показа кнопки ТОЛЬКО на последнем слайде
         if (currentSlide === totalSlides - 1) {
             console.log('Последний слайд!');
             if (finalMessage) finalMessage.classList.add('visible');
             
-            // ПОКАЗЫВАЕМ КНОПКУ ИГРЫ (если еще не победа)
-            if (!gameWon && gameStartBtn) {
+            // Показываем кнопку ТОЛЬКО если игра не активна и не пройдена
+            if (!gameActive && !gameWon && gameStartBtn) {
                 console.log('Показываем кнопку игры');
                 gameStartBtn.classList.remove('hidden');
-                
-                // Для телефона: принудительно показываем
-                gameStartBtn.style.display = 'block';
-                gameStartBtn.style.visibility = 'visible';
-                gameStartBtn.style.opacity = '1';
-                gameStartBtn.style.pointerEvents = 'auto';
-                gameStartBtn.style.zIndex = '10000';
             }
         } else {
             if (finalMessage) finalMessage.classList.remove('visible');
-            // НЕ ПРЯЧЕМ КНОПКУ на других слайдах
+            // На всех других слайдах кнопка скрыта
+            if (gameStartBtn && !gameActive) {
+                gameStartBtn.classList.add('hidden');
+            }
         }
     }
     
@@ -155,10 +149,8 @@ window.addEventListener('load', function() {
             if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
                 if (diffX > 0 && currentSlide < totalSlides - 1) {
                     goToSlide(currentSlide + 1);
-                    if (navigator.vibrate) navigator.vibrate(10);
                 } else if (diffX < 0 && currentSlide > 0) {
                     goToSlide(currentSlide - 1);
-                    if (navigator.vibrate) navigator.vibrate(10);
                 }
             }
         });
@@ -183,9 +175,8 @@ window.addEventListener('load', function() {
     
     // ========== ИГРА ==========
     if (gameStartBtn) {
-        console.log('Кнопка игры найдена, вешаем обработчики');
+        console.log('Кнопка игры найдена');
         
-        // Обработчик для клика
         gameStartBtn.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -193,22 +184,12 @@ window.addEventListener('load', function() {
             startGame();
         });
         
-        // Обработчик для касания на телефоне
         gameStartBtn.addEventListener('touchstart', (e) => {
             e.preventDefault();
             e.stopPropagation();
             console.log('Тап по кнопке игры');
             startGame();
         });
-        
-        // Принудительные стили для телефона
-        gameStartBtn.style.display = 'block';
-        gameStartBtn.style.visibility = 'visible';
-        gameStartBtn.style.opacity = '1';
-        gameStartBtn.style.pointerEvents = 'auto';
-        gameStartBtn.style.zIndex = '10000';
-    } else {
-        console.error('Кнопка игры не найдена!');
     }
     
     if (exitGame) {
@@ -243,11 +224,12 @@ window.addEventListener('load', function() {
         if (gameArea) gameArea.innerHTML = '';
         if (gameContainer) {
             gameContainer.classList.remove('hidden');
-            console.log('Игра показана');
         }
         
-        // Прячем кнопку игры
-        if (gameStartBtn) gameStartBtn.classList.add('hidden');
+        // Прячем кнопку игры ПРИ ЗАПУСКЕ
+        if (gameStartBtn) {
+            gameStartBtn.classList.add('hidden');
+        }
         
         if (gameInterval) clearInterval(gameInterval);
         gameInterval = setInterval(() => {
@@ -259,10 +241,6 @@ window.addEventListener('load', function() {
         if (gameArea) {
             gameArea.addEventListener('touchmove', moveCatcherTouch, { passive: false });
             gameArea.addEventListener('mousemove', moveCatcher);
-            
-            gameArea.addEventListener('touchstart', (e) => {
-                e.preventDefault();
-            });
         }
     }
     
@@ -276,16 +254,10 @@ window.addEventListener('load', function() {
             gameArea.removeEventListener('mousemove', moveCatcher);
         }
         
-        // Показываем кнопку игры снова (если не победа)
-        if (!gameWon && gameStartBtn) {
+        // После игры проверяем, нужно ли показать кнопку
+        // Показываем только если не победа и мы на последнем слайде
+        if (!gameWon && gameStartBtn && currentSlide === totalSlides - 1) {
             gameStartBtn.classList.remove('hidden');
-            
-            // Для телефона
-            gameStartBtn.style.display = 'block';
-            gameStartBtn.style.visibility = 'visible';
-            gameStartBtn.style.opacity = '1';
-            gameStartBtn.style.pointerEvents = 'auto';
-            gameStartBtn.style.zIndex = '10000';
         }
     }
     
@@ -295,7 +267,6 @@ window.addEventListener('load', function() {
         let x = e.clientX - rect.left;
         x = Math.max(50, Math.min(rect.width - 50, x));
         catcher.style.left = x + 'px';
-        catcherX = (x / rect.width) * 100;
     }
     
     function moveCatcherTouch(e) {
@@ -305,7 +276,6 @@ window.addEventListener('load', function() {
         let x = e.touches[0].clientX - rect.left;
         x = Math.max(50, Math.min(rect.width - 50, x));
         catcher.style.left = x + 'px';
-        catcherX = (x / rect.width) * 100;
     }
     
     function createHeart() {
@@ -355,7 +325,6 @@ window.addEventListener('load', function() {
                 heart.remove();
                 clearInterval(fallInterval);
                 
-                const points = parseInt(heart.getAttribute('data-points'));
                 const type = heart.getAttribute('data-type');
                 
                 if (type === 'bad') {
@@ -363,13 +332,8 @@ window.addEventListener('load', function() {
                     combo = 0;
                     
                     catcher.style.transform = 'translateX(-50%) scale(0.8)';
-                    catcher.style.backgroundColor = '#ff0000';
-                    
-                    if (navigator.vibrate) navigator.vibrate(50);
-                    
                     setTimeout(() => {
                         catcher.style.transform = 'translateX(-50%) scale(1)';
-                        catcher.style.backgroundColor = 'rgba(255,71,87,0.3)';
                     }, 200);
                     
                 } else {
@@ -388,17 +352,13 @@ window.addEventListener('load', function() {
                     lastCatchTime = now;
                     
                     catcher.style.transform = 'translateX(-50%) scale(1.2)';
-                    catcher.style.backgroundColor = 'rgba(255,215,0,0.5)';
                     
                     if (type === 'gold' && lives_count < 3) {
                         lives_count++;
                     }
                     
-                    if (navigator.vibrate) navigator.vibrate(10);
-                    
                     setTimeout(() => {
                         catcher.style.transform = 'translateX(-50%) scale(1)';
-                        catcher.style.backgroundColor = 'rgba(255,71,87,0.3)';
                     }, 100);
                 }
                 
@@ -426,11 +386,8 @@ window.addEventListener('load', function() {
                         combo = 0;
                         
                         catcher.style.transform = 'translateX(-50%) scale(0.8)';
-                        catcher.style.backgroundColor = '#ff0000';
-                        
                         setTimeout(() => {
                             catcher.style.transform = 'translateX(-50%) scale(1)';
-                            catcher.style.backgroundColor = 'rgba(255,71,87,0.3)';
                         }, 200);
                         
                         updateLives();
@@ -459,7 +416,6 @@ window.addEventListener('load', function() {
         comboEl.style.animation = 'combo 0.5s ease-out forwards';
         
         gameArea.appendChild(comboEl);
-        
         setTimeout(() => comboEl.remove(), 500);
     }
     
@@ -480,35 +436,24 @@ window.addEventListener('load', function() {
     function gameOver() {
         console.log('Игра проиграна');
         endGame();
-        alert('Ой! Сердечки разбились... Но ты можешь попробовать еще раз! ❤️');
-        
-        setTimeout(() => {
-            if (!gameWon && gameStartBtn) {
-                gameStartBtn.classList.remove('hidden');
-                
-                // Для телефона
-                gameStartBtn.style.display = 'block';
-                gameStartBtn.style.visibility = 'visible';
-                gameStartBtn.style.opacity = '1';
-                gameStartBtn.style.pointerEvents = 'auto';
-                gameStartBtn.style.zIndex = '10000';
-            }
-        }, 500);
+        alert('Ой! Сердечки разбились... Попробуй еще раз! ❤️');
     }
     
     function win() {
         console.log('Победа!');
         gameWon = true;
-        endGame();
+        gameActive = false;
+        
+        if (gameContainer) gameContainer.classList.add('hidden');
+        if (gameInterval) clearInterval(gameInterval);
         if (bonusMessage) bonusMessage.classList.add('visible');
         
+        // Кнопка навсегда скрыта после победы
         if (gameStartBtn) gameStartBtn.classList.add('hidden');
         
         for (let i = 0; i < 30; i++) {
             setTimeout(() => createFirework(), i * 70);
         }
-        
-        if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
     }
     
     // ========== ФЕЙЕРВЕРК ==========
@@ -526,10 +471,7 @@ window.addEventListener('load', function() {
         firework.style.animation = 'firework 1s ease-out forwards';
         firework.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
         firework.style.color = colors[Math.floor(Math.random() * colors.length)];
-        firework.style.textShadow = '0 0 20px currentColor';
-        
         document.body.appendChild(firework);
-        
         setTimeout(() => firework.remove(), 1000);
     }
     
@@ -537,38 +479,19 @@ window.addEventListener('load', function() {
     const style = document.createElement('style');
     style.textContent = `
         @keyframes firework {
-            0% {
-                opacity: 1;
-                transform: scale(0) rotate(0deg);
-            }
-            50% {
-                opacity: 1;
-                transform: scale(1.5) rotate(180deg);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(2) rotate(360deg);
-            }
+            0% { opacity: 1; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1.5) rotate(180deg); }
+            100% { opacity: 0; transform: scale(2) rotate(360deg); }
         }
-        
         @keyframes combo {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.5);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(2);
-            }
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(2); }
         }
     `;
     document.head.appendChild(style);
     
-    // Принудительно показываем первый слайд
+    // Инициализация
     setTimeout(() => {
         console.log('Инициализация...');
         if (totalSlides > 0) {
