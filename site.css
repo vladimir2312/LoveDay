@@ -12,9 +12,10 @@ body {
     justify-content: center;
     overflow-x: hidden;
     position: relative;
+    background: #1a1a2e;
 }
 
-/* Ãðàäèåíòíûé ôîí */
+/* Градиентный фон */
 .gradient-bg {
     position: fixed;
     top: 0;
@@ -36,52 +37,41 @@ body {
     animation: sphereMove 20s ease-in-out infinite;
 }
 
-    .gradient-sphere:nth-child(1) {
-        top: -200px;
-        left: -200px;
-        background: radial-gradient(circle at 30% 30%, rgba(255, 71, 87, 0.5), rgba(255, 107, 107, 0.2));
-        animation-duration: 25s;
-    }
-
-    .gradient-sphere:nth-child(2) {
-        bottom: -200px;
-        right: -200px;
-        width: 800px;
-        height: 800px;
-        background: radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.4), rgba(255, 182, 193, 0.1));
-        animation-duration: 30s;
-        animation-direction: reverse;
-    }
-
-    .gradient-sphere:nth-child(3) {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 1000px;
-        height: 1000px;
-        background: radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.3), rgba(147, 112, 219, 0.1));
-        animation-duration: 35s;
-    }
-
-@keyframes sphereMove {
-    0%, 100% {
-        transform: translate(0, 0) scale(1);
-    }
-
-    25% {
-        transform: translate(5%, 5%) scale(1.1);
-    }
-
-    50% {
-        transform: translate(-5%, 10%) scale(0.9);
-    }
-
-    75% {
-        transform: translate(10%, -5%) scale(1.2);
-    }
+.gradient-sphere:nth-child(1) {
+    top: -200px;
+    left: -200px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 71, 87, 0.5), rgba(255, 107, 107, 0.2));
+    animation-duration: 25s;
 }
 
-/* Ïëàâàþùèå ñåðäå÷êè */
+.gradient-sphere:nth-child(2) {
+    bottom: -200px;
+    right: -200px;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.4), rgba(255, 182, 193, 0.1));
+    animation-duration: 30s;
+    animation-direction: reverse;
+}
+
+.gradient-sphere:nth-child(3) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1000px;
+    height: 1000px;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.3), rgba(147, 112, 219, 0.1));
+    animation-duration: 35s;
+}
+
+@keyframes sphereMove {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(5%, 5%) scale(1.1); }
+    50% { transform: translate(-5%, 10%) scale(0.9); }
+    75% { transform: translate(10%, -5%) scale(1.2); }
+}
+
+/* Плавающие сердечки */
 .floating-hearts {
     position: fixed;
     top: 0;
@@ -100,62 +90,19 @@ body {
     color: #ff4d4d;
 }
 
-    .heart:nth-child(1) {
-        left: 10%;
-        animation-duration: 12s;
-        font-size: 30px;
-    }
-
-    .heart:nth-child(2) {
-        left: 30%;
-        animation-duration: 18s;
-        font-size: 40px;
-        animation-delay: -2s;
-    }
-
-    .heart:nth-child(3) {
-        left: 50%;
-        animation-duration: 14s;
-        font-size: 25px;
-        animation-delay: -5s;
-    }
-
-    .heart:nth-child(4) {
-        left: 70%;
-        animation-duration: 16s;
-        font-size: 35px;
-        animation-delay: -8s;
-    }
-
-    .heart:nth-child(5) {
-        left: 90%;
-        animation-duration: 20s;
-        font-size: 45px;
-        animation-delay: -3s;
-    }
-
-    .heart:nth-child(6) {
-        left: 20%;
-        animation-duration: 22s;
-        font-size: 28px;
-        animation-delay: -12s;
-    }
+.heart:nth-child(1) { left: 10%; animation-duration: 12s; font-size: 30px; }
+.heart:nth-child(2) { left: 30%; animation-duration: 18s; font-size: 40px; animation-delay: -2s; }
+.heart:nth-child(3) { left: 50%; animation-duration: 14s; font-size: 25px; animation-delay: -5s; }
+.heart:nth-child(4) { left: 70%; animation-duration: 16s; font-size: 35px; animation-delay: -8s; }
+.heart:nth-child(5) { left: 90%; animation-duration: 20s; font-size: 45px; animation-delay: -3s; }
+.heart:nth-child(6) { left: 20%; animation-duration: 22s; font-size: 28px; animation-delay: -12s; }
 
 @keyframes floatHeart {
-    0% {
-        top: 110%;
-        transform: translateY(0) rotate(0deg);
-        opacity: 0.3;
-    }
-
-    100% {
-        top: -20%;
-        transform: translateY(-100vh) rotate(360deg);
-        opacity: 0.1;
-    }
+    0% { top: 110%; transform: translateY(0) rotate(0deg); opacity: 0.3; }
+    100% { top: -20%; transform: translateY(-100vh) rotate(360deg); opacity: 0.1; }
 }
 
-/* Ñòàðòîâûé ýêðàí */
+/* Стартовый экран */
 .start {
     position: fixed;
     top: 0;
@@ -172,10 +119,10 @@ body {
     transition: opacity 0.5s;
 }
 
-    .start.hidden {
-        opacity: 0;
-        pointer-events: none;
-    }
+.start.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
 
 .start-content {
     text-align: center;
@@ -183,13 +130,8 @@ body {
 }
 
 @keyframes startFloat {
-    0%, 100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-15px);
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
 }
 
 .start-envelope {
@@ -201,11 +143,11 @@ body {
     filter: drop-shadow(0 20px 30px rgba(255,71,87,0.3));
 }
 
-    .start-envelope svg {
-        width: 100%;
-        height: 100%;
-        stroke: #ff4d4d;
-    }
+.start-envelope svg {
+    width: 100%;
+    height: 100%;
+    stroke: #ff4d4d;
+}
 
 .envelope-heart {
     position: absolute;
@@ -218,21 +160,10 @@ body {
 }
 
 @keyframes heartbeat {
-    0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-    }
-
-    25% {
-        transform: translate(-50%, -50%) scale(1.2);
-    }
-
-    50% {
-        transform: translate(-50%, -50%) scale(1);
-    }
-
-    75% {
-        transform: translate(-50%, -50%) scale(1.1);
-    }
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    25% { transform: translate(-50%, -50%) scale(1.2); }
+    50% { transform: translate(-50%, -50%) scale(1); }
+    75% { transform: translate(-50%, -50%) scale(1.1); }
 }
 
 .start-text {
@@ -244,24 +175,7 @@ body {
     opacity: 0.9;
 }
 
-.start-arrow {
-    color: #fff;
-    font-size: 24px;
-    opacity: 0.6;
-    animation: arrowBounce 1.5s infinite;
-}
-
-@keyframes arrowBounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(10px);
-    }
-}
-
-/* Îñíîâíîé êîíòåíò */
+/* Основной контент */
 .content {
     position: fixed;
     top: 0;
@@ -276,9 +190,9 @@ body {
     z-index: 2;
 }
 
-    .content.visible {
-        opacity: 1;
-    }
+.content.visible {
+    opacity: 1;
+}
 
 .container {
     max-width: 500px;
@@ -287,7 +201,7 @@ body {
     z-index: 3;
 }
 
-/* Çàãîëîâîê */
+/* Заголовок */
 .title {
     display: flex;
     align-items: center;
@@ -300,37 +214,19 @@ body {
     text-shadow: 0 0 20px rgba(255,71,87,0.5);
 }
 
-    .title span {
-        opacity: 0;
-        animation: titleAppear 0.5s forwards;
-    }
+.title span {
+    opacity: 0;
+    animation: titleAppear 0.5s forwards;
+}
 
-        .title span:nth-child(1) {
-            animation-delay: 0.1s;
-        }
-
-        .title span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .title span:nth-child(3) {
-            animation-delay: 0.3s;
-        }
-
-        .title span:nth-child(4) {
-            animation-delay: 0.4s;
-        }
+.title span:nth-child(1) { animation-delay: 0.1s; }
+.title span:nth-child(2) { animation-delay: 0.2s; }
+.title span:nth-child(3) { animation-delay: 0.3s; }
+.title span:nth-child(4) { animation-delay: 0.4s; }
 
 @keyframes titleAppear {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: translateY(20px); }
 }
 
 .title-heart {
@@ -338,7 +234,7 @@ body {
     animation: heartbeat 1.5s infinite;
 }
 
-/* Òàéìåð */
+/* Таймер */
 .timer {
     display: flex;
     align-items: center;
@@ -380,7 +276,7 @@ body {
     margin-bottom: 15px;
 }
 
-/* Ñëàéäåð */
+/* Слайдер */
 .slider-container {
     position: relative;
     margin-bottom: 40px;
@@ -409,35 +305,19 @@ body {
     position: relative;
 }
 
-    .slide img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        transition: transform 0.5s;
-    }
-
-    .slide:hover img {
-        transform: scale(1.05);
-    }
-
-.slide-glow {
-    position: absolute;
-    top: 0;
-    left: 0;
+.slide img {
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.2), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-    pointer-events: none;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s;
 }
 
-.slide:hover .slide-glow {
-    opacity: 1;
+.slide:hover img {
+    transform: scale(1.05);
 }
 
-/* Ñòðåëêè íàâèãàöèè */
+/* Стрелки навигации */
 .slider-arrow {
     position: absolute;
     top: 50%;
@@ -457,25 +337,25 @@ body {
     z-index: 4;
 }
 
-    .slider-arrow:hover {
-        background: rgba(255,255,255,0.3);
-        transform: translateY(-50%) scale(1.1);
-    }
+.slider-arrow:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-50%) scale(1.1);
+}
 
-    .slider-arrow.prev {
-        left: 20px;
-    }
+.slider-arrow.prev {
+    left: 20px;
+}
 
-    .slider-arrow.next {
-        right: 20px;
-    }
+.slider-arrow.next {
+    right: 20px;
+}
 
-    .slider-arrow svg {
-        width: 24px;
-        height: 24px;
-    }
+.slider-arrow svg {
+    width: 24px;
+    height: 24px;
+}
 
-/* Èíäèêàòîðû */
+/* Индикаторы */
 .dots {
     display: flex;
     justify-content: center;
@@ -492,13 +372,13 @@ body {
     cursor: pointer;
 }
 
-    .dot.active {
-        width: 30px;
-        background: #ff4d4d;
-        box-shadow: 0 0 20px #ff4d4d;
-    }
+.dot.active {
+    width: 30px;
+    background: #ff4d4d;
+    box-shadow: 0 0 20px #ff4d4d;
+}
 
-/* Ôèíàëüíîå ñîîáùåíèå */
+/* Финальное сообщение */
 .message {
     position: absolute;
     top: 0;
@@ -514,10 +394,10 @@ body {
     z-index: 5;
 }
 
-    .message.visible {
-        opacity: 1;
-        pointer-events: auto;
-    }
+.message.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
 
 .message-card {
     background: rgba(255,255,255,0.1);
@@ -533,82 +413,38 @@ body {
 }
 
 @keyframes messageAppear {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .message-heart {
-    margin-bottom: 20px;
-}
-
-.heart-pulse {
     font-size: 50px;
+    margin-bottom: 20px;
     animation: pulse 1.5s infinite;
 }
 
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-}
-
 .message-photo {
-    position: relative;
     width: 150px;
     height: 150px;
     margin: 0 auto 25px;
     border-radius: 50%;
     overflow: hidden;
+    border: 3px solid #ffd700;
 }
 
-    .message-photo img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        border-radius: 50%;
-    }
-
-.photo-ring {
-    position: absolute;
-    top: -5px;
-    left: -5px;
-    right: -5px;
-    bottom: -5px;
-    border: 2px solid rgba(255,255,255,0.3);
-    border-radius: 50%;
-    animation: spin 10s linear infinite;
-}
-
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+.message-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .message-text {
     font-size: 18px;
     line-height: 1.8;
     color: #fff;
-    margin-bottom: 20px;
 }
 
 .message-highlight {
-    display: inline-block;
     color: #ffd700;
     font-weight: 500;
     text-shadow: 0 0 10px rgba(255,215,0,0.5);
@@ -616,92 +452,20 @@ body {
 }
 
 @keyframes glow {
-    0%, 100% {
-        text-shadow: 0 0 10px rgba(255,215,0,0.5);
-    }
-
-    50% {
-        text-shadow: 0 0 20px rgba(255,215,0,0.8);
-    }
+    0%, 100% { text-shadow: 0 0 10px rgba(255,215,0,0.5); }
+    50% { text-shadow: 0 0 20px rgba(255,215,0,0.8); }
 }
 
-.message-signature {
-    font-size: 14px;
-    color: rgba(255,255,255,0.6);
-    letter-spacing: 1px;
-}
-
-/* Êíîïêà ïàóçû */
-.pause {
-    position: absolute;
-    bottom: -30px;
-    right: 0;
-    width: 30px;
-    height: 30px;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 50%;
-    color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    opacity: 0.5;
-}
-
-    .pause:hover {
-        opacity: 1;
-        transform: scale(1.1);
-        background: rgba(255,255,255,0.2);
-    }
-
-    .pause svg {
-        width: 15px;
-        height: 15px;
-    }
-
-/* Àäàïòàöèÿ */
-@media (max-width: 480px) {
-    .title {
-        font-size: 28px;
-    }
-
-    .timer-number {
-        font-size: 24px;
-    }
-
-    .timer {
-        padding: 15px;
-    }
-
-    .slider-arrow {
-        width: 40px;
-        height: 40px;
-    }
-
-        .slider-arrow.prev {
-            left: 10px;
-        }
-
-        .slider-arrow.next {
-            right: 10px;
-        }
-
-    .message-text {
-        font-size: 16px;
-    }
-}
-/* Èãðà */
+/* КНОПКА ИГРЫ - ИСПРАВЛЕННАЯ ВЕРСИЯ */
 .game-start {
     text-align: center;
     margin: 30px 0;
-    animation: fadeIn 0.5s;
+    display: block;
 }
 
-    .game-start.hidden {
-        display: none;
-    }
+.game-start.hidden {
+    display: none !important;
+}
 
 .game-start-btn {
     background: linear-gradient(45deg, #ff4d4d, #ff6b6b);
@@ -719,11 +483,12 @@ body {
     border: 1px solid rgba(255,255,255,0.3);
 }
 
-    .game-start-btn:hover {
-        transform: scale(1.05);
-        box-shadow: 0 15px 40px rgba(255,71,87,0.8);
-    }
+.game-start-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(255,71,87,0.8);
+}
 
+/* Игра */
 .game-container {
     position: fixed;
     top: 0;
@@ -738,9 +503,9 @@ body {
     padding: 20px;
 }
 
-    .game-container.hidden {
-        display: none;
-    }
+.game-container.hidden {
+    display: none;
+}
 
 .game-header {
     display: flex;
@@ -769,10 +534,10 @@ body {
     transition: opacity 0.3s;
 }
 
-    .life.active {
-        opacity: 1;
-        animation: heartbeat 1s infinite;
-    }
+.life.active {
+    opacity: 1;
+    animation: heartbeat 1s infinite;
+}
 
 .game-area {
     flex: 1;
@@ -793,9 +558,7 @@ body {
 }
 
 @keyframes fall {
-    to {
-        top: 100%;
-    }
+    to { top: 100%; }
 }
 
 .game-catcher {
@@ -840,12 +603,12 @@ body {
     z-index: 30;
 }
 
-    .game-exit:hover {
-        background: rgba(255,255,255,0.3);
-        transform: scale(1.1);
-    }
+.game-exit:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.1);
+}
 
-/* Áîíóñíîå ñîîáùåíèå */
+/* Бонусное сообщение */
 .bonus-message {
     position: fixed;
     top: 0;
@@ -863,10 +626,10 @@ body {
     pointer-events: none;
 }
 
-    .bonus-message.visible {
-        opacity: 1;
-        pointer-events: auto;
-    }
+.bonus-message.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
 
 .bonus-card {
     background: linear-gradient(145deg, #2b1a2e, #1d232b);
@@ -882,15 +645,8 @@ body {
 }
 
 @keyframes bonusAppear {
-    from {
-        opacity: 0;
-        transform: scale(0.8) translateY(30px);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-    }
+    from { opacity: 0; transform: scale(0.8) translateY(30px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .bonus-firework {
@@ -916,11 +672,11 @@ body {
     box-shadow: 0 0 30px rgba(255,215,0,0.5);
 }
 
-    .bonus-photo img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+.bonus-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 .bonus-text {
     color: white;
@@ -929,10 +685,10 @@ body {
     margin-bottom: 30px;
 }
 
-    .bonus-text strong {
-        color: #ffd700;
-        font-size: 20px;
-    }
+.bonus-text strong {
+    color: #ffd700;
+    font-size: 20px;
+}
 
 .bonus-close {
     position: absolute;
@@ -952,48 +708,45 @@ body {
     transition: all 0.3s;
 }
 
-    .bonus-close:hover {
-        background: rgba(255,255,255,0.2);
-        transform: scale(1.1);
-    }
-/* Базовые настройки для мобильных */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent; /* убирает серый фон при тапе */
+.bonus-close:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
 }
 
-html {
-    -webkit-text-size-adjust: 100%; /* запрещает масштабирование текста */
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .title { font-size: 28px; }
+    .timer-number { font-size: 24px; }
+    .timer { padding: 15px; }
+    .slider-arrow { width: 40px; height: 40px; }
+    .slider-arrow.prev { left: 10px; }
+    .slider-arrow.next { right: 10px; }
+    .message-text { font-size: 16px; }
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow-x: hidden;
-    position: relative;
-    background: #1a1a2e;
+@media (max-width: 380px) {
+    .game-start-btn { padding: 12px 20px; font-size: 16px; }
 }
 
-/* Контейнер */
-.container {
-    max-width: 500px;
-    width: 90%;
-    margin: 0 auto;
-    position: relative;
-    z-index: 3;
+/* Анимации */
+@keyframes firework {
+    0% { opacity: 1; transform: scale(0) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1.5) rotate(180deg); }
+    100% { opacity: 0; transform: scale(2) rotate(360deg); }
 }
 
-/* Для очень больших экранов */
-@media (min-width: 1200px) {
-    .container {
-        max-width: 600px;
-    }
+@keyframes combo {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
+    100% { opacity: 0; transform: translate(-50%, -50%) scale(2); }
 }
 
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
 
-
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
